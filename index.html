@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silly Tavern - Таинственное приключение</title>
+    <style>
+        /* Основные стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #c0b9a9;
+            background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Шапка */
+        header {
+            background-color: rgba(20, 20, 20, 0.9);
+            padding: 20px 0;
+            border-bottom: 2px solid #3d352a;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #9d8c68;
+            text-shadow: 2px 2px 4px #000;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+        
+        .logo span {
+            color: #7a5c39;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin: 0 15px;
+        }
+        
+        nav ul li a {
+            color: #c0b9a9;
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: #9d8c68;
+            border-bottom: 1px solid #9d8c68;
+        }
+        
+        /* Основной контент */
+        main {
+            padding: 40px 0;
+            min-height: calc(100vh - 200px);
+        }
+        
+        .page {
+            display: none;
+            background-color: rgba(15, 15, 15, 0.85);
+            padding: 30px;
+            border: 1px solid #3d352a;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        h1, h2, h3 {
+            color: #9d8c68;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px #000;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            border-bottom: 2px solid #3d352a;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            margin-top: 30px;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        /* Карточки */
+        .card {
+            background-color: rgba(25, 25, 25, 0.7);
+            border: 1px solid #3d352a;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        /* Галерея */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border: 2px solid #3d352a;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Персонаж */
+        .character {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            margin: 30px 0;
+        }
+        
+        .character-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+        
+        .character-image img {
+            max-width: 100%;
+            border: 3px solid #3d352a;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .character-description {
+            flex: 2;
+            min-width: 300px;
+            padding: 20px;
+        }
+        
+        .character-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat {
+            background-color: rgba(35, 35, 35, 0.7);
+            padding: 10px;
+            border-left: 3px solid #9d8c68;
+        }
+        
+        /* Подвал */
+        footer {
+            background-color: rgba(20, 20, 20, 0.9);
+            padding: 20px 0;
+            text-align: center;
+            border-top: 2px solid #3d352a;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 5px 0;
+            }
+            
+            .character {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">Silly <span>Tavern</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="showPage('home')">Главная</a></li>
+                    <li><a href="#" onclick="showPage('about')">О приложении</a></li>
+                    <li><a href="#" onclick="showPage('features')">Возможности</a></li>
+                    <li><a href="#" onclick="showPage('character')">Создание персонажа</a></li>
+                    <li><a href="#" onclick="showPage('knight')">Таинственный рыцарь</a></li>
+                    <li><a href="#" onclick="showPage('gallery')">Галерея</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Главная страница -->
+            <section id="home" class="page active">
+                <h1>Добро пожаловать в Silly Tavern</h1>
+                <div class="card">
+                    <p>Войдите в мир загадок и приключений, где каждая история оживает. Silly Tavern - это не просто приложение, это портал в мир фэнтези, где вы становитесь главным героем своей собственной саги.</p>
+                    <p>Приготовьтесь к путешествию в темные подземелья, величественные замки и встрече с mythical существами, которые будут проверять вашу храбрость на каждом шагу.</p>
+                </div>
+                
+                <h2>Начните свое приключение</h2>
+                <div class="gallery">
+                    <img src="https://images.unsplash.com/photo-1546445317-29f4545e9d53?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Таверна">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Горы">
+                    <img src="https://images.unsplash.com/photo-1519885277449-12eee5564d68?ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80" alt="Замок">
+                </div>
+            </section>
+
+            <!-- О приложении -->
+            <section id="about" class="page">
+                <h1>О Silly Tavern</h1>
+                <div class="card">
+                    <p>Silly Tavern - это инновационное приложение, которое переносит вас в мир фэнтезийных приключений, где вы можете создавать уникальных персонажей и погружаться в захватывающие истории.</p>
+                    <p>Основанное на передовых технологиях, приложение предлагает непревзойденный опыт взаимодействия с искусственным интеллектом, который адаптируется под ваши решения и создает уникальные сценарии для каждого пользователя.</p>
+                </div>
+                
+                <h2>Наша история</h2>
+                <p>Созданное в стенах древней цифровой обители, Silly Tavern рождалось как скромный проект энтузиастов, но быстро превратилось в нечто большее. Вдохновленные атмосферой средневековых таверн, где путешественники делились историями, мы создали место, где эти истории оживают.</p>
+                
+                <h2>Философия</h2>
+                <p>Мы верим, что каждый имеет право на собственное приключение. В мире, полном рутины, Silly Tavern становится тем местом, где можно сбежать от обыденности и окунуться в мир магии и загадок.</p>
+            </section>
+
+            <!-- Возможности -->
+            <section id="features" class="page">
+                <h1>Возможности Silly Tavern</h1>
+                
+                <div class="card">
+                    <h2>Создание персонажа</h2>
+                    <p>Разработайте уникального героя с детальной проработкой внешности, характеристик и предыстории. Выберите из множества рас, классов и способностей.</p>
+                </div>
+                
+                <div class="card">
+                    <h2>Динамичные сценарии</h2>
+                    <p>Интеллектуальная система генерирует уникальные сюжетные линии, которые адаптируются под ваши решения. Каждое прохождение становится уникальным опытом.</p>
+                </div>
+                
+                <div class="card">
+                    <h2>Многопользовательский режим</h2>
+                    <p>Объединяйтесь с друзьями или встречайте новых спутников в ваших приключениях. Совместно преодолевайте испытания и делитесь легендарными моментами.</p>
+                </div>
+                
+                <div class="card">
+                    <h2>Развитие и прогресс</h2>
+                    <p>Прокачивайте своего персонажа, открывайте новые способности, находите редкие артефакты и становитесь легендой Silly Tavern.</p>
+                </div>
+            </section>
+
+            <!-- Создание персонажа -->
+            <section id="character" class="page">
+                <h1>Создание персонажа</h1>
+                <p>Создайте своего уникального героя, который будет отражением вашей фантазии. Процесс создания персонажа в Silly Tavern - это глубокий и увлекательный опыт.</p>
+                
+                <h2>Шаг 1: Выбор расы</h2>
+                <p>От благородных людей до загадочных эльфов, могущественных дворфов и таинственных дроу - каждая раса обладает уникальными особенностями и способностями.</p>
+                
+                <h2>Шаг 2: Определение класса</h2>
+                <p>Воин, маг, жрец, плут или может быть что-то более экзотическое? Выберите путь, который определит стиль игры и доступные умения.</p>
+                
+                <h2>Шаг 3: Внешность и характер</h2>
+                <p>Детально настройте внешность вашего персонажа и определите черты характера, которые будут влиять на взаимодействие с миром и другими персонажами.</p>
+                
+                <h2>Шаг 4: Предыстория</h2>
+                <p>Создайте уникальную историю для вашего героя, которая будет влиять на диалоги, возможности и развитие сюжета.</p>
+                
+                <div class="gallery">
+                    <img src="https://images.unsplash.com/photo-1585494187196-7c0f4d60d0d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Воин">
+                    <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Маг">
+                    <img src="https://images.unsplash.com/photo-1576956033067-1859e5b403e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Лучник">
+                </div>
+            </section>
+
+            <!-- Таинственный рыцарь -->
+            <section id="knight" class="page">
+                <h1>Сэр Годрик Тенещит</h1>
+                
+                <div class="character">
+                    <div class="character-image">
+                        <img src="https://images.unsplash.com/photo-1567676726510-32081213270f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Таинственный рыцарь">
+                    </div>
+                    <div class="character-description">
+                        <p>Сэр Годрик Тенещит - загадочный рыцарь, чье прошлое окутано тайной. Говорят, он был обычным человеком, пока не заключил pact с древним существом теней, чтобы отомстить за уничтожение своего рода.</p>
+                        <p>Теперь он странствует по землям, неся правосудие тем, кто укрывается во тьме, но его методы часто вызывают вопросы у тех, кто следует кодексу чести.</p>
+                        
+                        <div class="character-stats">
+                            <div class="stat">
+                                <h3>Раса</h3>
+                                <p>Человек (прикоснувшийся к тени)</p>
+                            </div>
+                            <div class="stat">
+                                <h3>Класс</h3>
+                                <p>Рыцарь Теней</p>
+                            </div>
+                            <div class="stat">
+                                <h3>Уровень</h3>
+                                <p>47</p>
+                            </div>
+                            <div class="stat">
+                                <h3>Принадлежность</h3>
+                                <p>Орден Забвенных</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2>Способности</h2>
+                <div class="card">
+                    <h3>Теневой клинок</h3>
+                    <p>Годрик может материализовать оружие из pure теней, которое игнорирует броню противника и наносит урон непосредственно здоровью.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Шаг сквозь тень</h3>
+                    <p>Рыцарь может на мгновение раствориться в тенях и reappear в другом месте в пределах видимости.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>Доспехи из тьмы</h3>
+                    <p>В моменты опасности тени сгущаются вокруг Годрика, образуя дополнительную защиту, которая поглощает часть входящего урона.</p>
+                </div>
+                
+                <h2>Предыстория</h2>
+                <p>Мало что известно о ранних годах Годрика. Согласно немногим сохранившимся записям, он был младшим сыном знатного рода, уничтоженного во время Восстания Печатей. Единственный выживший, он искал силы, способной помочь ему отомстить, и нашел её в Заброшенных Чертогах - месте, где граница между мирами истончена.</p>
+                <p>Ценой части своей humanity Годрик получил силу теней, но с тех пор он вынужден постоянно бороться с influence сущности, с которой заключил договор.</p>
+            </section>
+
+            <!-- Галерея -->
+            <section id="gallery" class="page">
+                <h1>Галерея миров Silly Tavern</h1>
+                <p>Окунитесь в атмосферу загадочных миров, которые вы можете исследовать в Silly Tavern.</p>
+                
+                <div class="gallery">
+                    <img src="https://images.unsplash.com/photo-1468657988500-aca2be09f4c6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Заброшенный храм">
+                    <img src="https://images.unsplash.com/photo-1513614471325-0c4d6f1a3f1f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Лес">
+                    <img src="https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Космос">
+                    <img src="https://images.unsplash.com/photo-1541418951310-6d6f087aed5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Горный перевал">
+                    <img src="https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Северное сияние">
+                    <img src="https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Осенний лес">
+                </div>
+                
+                <h2>Персонажи игроков</h2>
+                <div class="gallery">
+                    <img src="https://images.unsplash.com/photo-1547891654-e66ed7ebb968?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Эльфийка">
+                    <img src="https://images.unsplash.com/photo-1565945886514-1d8dd5f38c2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Ведьма">
+                    <img src="https://images.unsplash.com/photo-1530651788726-9a5c4cb75d59?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Дворф">
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Silly Tavern &copy; 2023. Все права защищены. Погрузитесь в мир приключений!</p>
+        </div>
+    </footer>
+
+    <script>
+        // Функция для переключения страниц
+        function showPage(pageId) {
+            // Скрыть все страницы
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Показать выбранную страницу
+            document.getElementById(pageId).classList.add('active');
+            
+            // Прокрутить к верху страницы
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
